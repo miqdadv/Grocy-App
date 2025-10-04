@@ -1,20 +1,8 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
 
 import {
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-  View,
-  Text,
+  StyleSheet
 } from 'react-native';
 import AppNavigation from './src/navigation/AppNavigations';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
