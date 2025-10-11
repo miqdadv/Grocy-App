@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import CustomHeader from '../../../components/header/CustomHeader';
-import { firestore } from '../../../../services/firebaseConfig';
+import firestore from '@react-native-firebase/firestore';
 import PopularDealCard from '../../../components/popularDealCard';
 import LottieView from 'lottie-react-native';
 import CustomButton from '../../../components/buttons/CustomButton';
@@ -37,11 +37,11 @@ const CategoryScreen = ({ route, navigation }: any) => {
         itr => itr.category_type === item.category_type,
       );
 
-      //   console.log('FILTERED ITEMS---->',filteredItems);
+        console.log('FILTERED ITEMS---->',filteredItems);
 
       setFilteredProducts(filteredItems);
     }
-  }, [products]);
+  }, [products, item]);
 
   useEffect(() => {
     const unsubscribe = firestore()

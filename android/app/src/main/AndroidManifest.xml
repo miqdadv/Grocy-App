@@ -10,6 +10,12 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme"
       android:supportsRtl="true">
+
+ <!-- Razorpay API Key -->
+      <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_RQwGpU7t4mLpAe" />
+            
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

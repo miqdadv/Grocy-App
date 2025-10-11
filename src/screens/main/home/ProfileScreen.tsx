@@ -1,7 +1,7 @@
 import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CustomProfileHeader from '../../../components/header/CustomProfileHeader';
-import { firestore } from '../../../../services/firebaseConfig';
+import firestore from '@react-native-firebase/firestore';
 import OptionsCard from '../../../components/profile/OptionsCard';
 import AdditionalOptionsCard from '../../../components/profile/AdditionalOptionsCard';
 import LogoutModal from '../../../components/modal/LogoutModal';

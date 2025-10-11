@@ -24,10 +24,14 @@ import BottomSheetCart from '../../../components/bottomSheet/BottomSheetCart';
 import BottomSheet from '@gorhom/bottom-sheet';
 import MenuModal from '../../../components/cart/MenuModal';
 import ConfirmActionModal from '../../../components/cart/modals/ConfirmActionModal';
+import PaymentSuccessModal from '../../../components/modal/PaymentSuccessModal';
 
 const CartScreen = ({ navigation }: any) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -46,7 +50,7 @@ const CartScreen = ({ navigation }: any) => {
 
   const totalPrice = getTotalCartPrice();
 
-  // console.log('TOTAL CART PRICE---->', totalPrice);
+  console.log('TOTAL CART PRICE---->', totalPrice);
 
   useEffect(() => {
     if (cartItems.length > 0) {
@@ -124,10 +128,18 @@ const CartScreen = ({ navigation }: any) => {
           />
         </View>
 
-        <MenuModal isMenuVisible={isMenuVisible} setIsMenuVisible={setIsMenuVisible} setIsConfirmModalVisible={setIsConfirmModalVisible}/>
-        <ConfirmActionModal isConfirmModalVisible={isConfirmModalVisible} setIsConfirmModalVisible={setIsConfirmModalVisible}/>
+        <MenuModal
+          isMenuVisible={isMenuVisible}
+          setIsMenuVisible={setIsMenuVisible}
+          setIsConfirmModalVisible={setIsConfirmModalVisible}
+        />
+        <ConfirmActionModal
+          isConfirmModalVisible={isConfirmModalVisible}
+          setIsConfirmModalVisible={setIsConfirmModalVisible}
+        />
       </View>
-      <BottomSheetCart ref={bottomSheetRef} totalPrice={totalPrice} />
+      <BottomSheetCart bottomSheetRef={bottomSheetRef} totalPrice={totalPrice} setShowPaymentModal={setShowPaymentModal} setModalType={setModalType}/>
+      <PaymentSuccessModal modalType={modalType} showPaymentModal={showPaymentModal} setShowPaymentModal={setShowPaymentModal}/>
     </View>
   );
 };
@@ -172,12 +184,20 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   startShoppingBtn: {
-    backgroundColor: '#9eb5ff79',
-    elevation: 0,
+    // backgroundColor: '#9eb5ff79',
+    // elevation: 0,
+    padding: 12,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#607DDB',
+    borderRadius: 8,
   },
   startShoppingText: {
-    color: '#1741caff',
+    // color: '#1741caff',
+    // fontFamily: fontFamily.semiBold,
     fontFamily: fontFamily.semiBold,
+    fontSize: 18,
+    color: '#607DDB',
   },
   showHideBillContainer: {
     position: 'absolute',
@@ -203,7 +223,6 @@ const styles = StyleSheet.create({
     height: 18,
     tintColor: '#1741caff',
   },
- 
 });
 
 export default CartScreen;

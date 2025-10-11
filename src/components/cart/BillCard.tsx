@@ -4,16 +4,15 @@ import { fontFamily } from '../../utils/fontandIcons';
 
 interface props {
   totalPrice: number;
+  handlingFee: number;
+  smallCartFee: number;
+  deliveryPartnerFee: number;
+  gstCharges: number;
+  toPay: number;
 }
 
-const BillCard = ({ totalPrice }: props) => {
-  const handlingFee = 9.8;
-  const smallCartFee = totalPrice > 99 ? 0 : 12;
-  const deliveryParnterFee = totalPrice > 99 ? 0 : 30;
-  const gstCharges = totalPrice * 0.05;
+const BillCard = ({ totalPrice, handlingFee, smallCartFee, deliveryPartnerFee, gstCharges, toPay}: props) => {
 
-  const toPay =
-    totalPrice + handlingFee + smallCartFee + deliveryParnterFee + gstCharges;
   return (
     <View style={styles.billContainer}>
       <Text style={styles.heading}>BILL DETAILS</Text>
@@ -48,7 +47,7 @@ const BillCard = ({ totalPrice }: props) => {
         <View style={styles.dottedLine}>
           <Text style={[styles.title]}>Delivery Partner Fee</Text>
         </View>
-        <Text style={styles.amount}>₹ {deliveryParnterFee}</Text>
+        <Text style={styles.amount}>₹ {deliveryPartnerFee}</Text>
       </View>
 
       <View style={styles.priceRow}>
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 12,
     marginVertical: 16,
-    elevation:6
+    elevation: 6,
   },
   heading: {
     fontFamily: fontFamily.regular,

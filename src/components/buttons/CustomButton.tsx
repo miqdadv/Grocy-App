@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
     alignItems: 'center',
-    elevation:6
+    // elevation:6
   },
   buttonText: {
     color: '#fff',
