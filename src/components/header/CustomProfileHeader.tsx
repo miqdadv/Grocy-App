@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FastImage from 'react-native-fast-image';
 import { fontFamily } from '../../utils/fontandIcons';
 import { auth as Auth } from '../../../services/firebaseConfig';
@@ -16,23 +16,37 @@ interface props {
 }
 
 const CustomProfileHeader = ({ onBackPress }: props) => {
-  const userName = Auth().currentUser?.displayName ?? '';
-  const userEmail = Auth().currentUser?.email ?? '';
+  // const userName = Auth().currentUser?.displayName ?? '';
+  // const userEmail = Auth().currentUser?.email ?? '';
 
+  const [userName, setUserName] = useState(Auth().currentUser?.displayName);
+  const [userEmail, setUserEmail] = useState(Auth().currentUser?.email);
 
+   useEffect(() => {
+    const unsubscribe = Auth().onUserChanged((user) => {
+      if (user) {
+        setUserName(user.displayName ?? '');
+        setUserEmail(user.email ?? '');
+      } else {
+        setUserName('');
+        setUserEmail('');
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <View style={styles.container}>
-      
       <View style={styles.row}>
         <View>
           <TouchableOpacity onPress={onBackPress} style={styles.backIcon}>
-                  <FastImage
-                    source={require('../../assets/images/arrow.png')}
-                    style={styles.icon}
-                    resizeMode="contain"
-                  />
-                </TouchableOpacity>
+            <FastImage
+              source={require('../../assets/images/arrow.png')}
+              style={styles.icon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.leftRow}>
           <TouchableOpacity style={styles.helpButton}>
@@ -48,7 +62,7 @@ const CustomProfileHeader = ({ onBackPress }: props) => {
         </View>
       </View>
 
-    {/* user details */}
+      {/* user details */}
       <View style={styles.userCredentials}>
         <Text style={styles.userName}>{userName}</Text>
         <Text style={styles.userEmail}>{userEmail}</Text>
@@ -103,26 +117,26 @@ const styles = StyleSheet.create({
     color: '#3967ffff',
     fontSize: 13,
   },
-  userCredentials:{
-    position:'absolute',
-    bottom:25,
-    left:20,
+  userCredentials: {
+    position: 'absolute',
+    bottom: 25,
+    left: 20,
     // borderWidth:1
   },
-  userName:{
-  fontFamily:fontFamily.bold,
-  fontSize:26
+  userName: {
+    fontFamily: fontFamily.bold,
+    fontSize: 26,
   },
-  userEmail:{
-   fontFamily:fontFamily.medium,
-   fontSize:15,
-   color:'grey'
+  userEmail: {
+    fontFamily: fontFamily.medium,
+    fontSize: 15,
+    color: 'grey',
   },
-   backIcon: {
+  backIcon: {
     marginRight: 10,
   },
-   icon: {
+  icon: {
     width: 20,
     height: 20,
-  }, 
+  },
 });

@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import LottieView from 'lottie-react-native';
 import ProfileScreen from '../screens/main/home/ProfileScreen';
+import OrdersScreen from '../screens/main/home/OrdersScreen';
 
 const Tab = createBottomTabNavigator();
 const width = Dimensions.get('screen').width;
@@ -85,8 +86,8 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Exchange"
-        component={HomeScreen}
+        name="OrdersScreen"
+        component={OrdersScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon

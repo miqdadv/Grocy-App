@@ -18,11 +18,12 @@ import PopularDealCard from '../../../components/popularDealCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { logout } from '../../../redux/slices/authSlice';
-import { auth as Auth, firestore } from '../../../../services/firebaseConfig';
+import { auth as Auth } from '../../../../services/firebaseConfig';
 // import { categoriesData, promoData } from '../../../utils/data';
 import LottieView from 'lottie-react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import BottomSheetProduct from '../../../components/bottomSheet/BottomSheetProduct';
+import firestore from '@react-native-firebase/firestore';
 
 const HomeScreen = ({ navigation }: any) => {
   const [categories, setCategories] = useState<any[]>([]);
@@ -76,45 +77,45 @@ const HomeScreen = ({ navigation }: any) => {
 
   //search animation
 
- useEffect(() => {
-  const interval = setInterval(() => {
-    // Animate up + fade out
-    Animated.parallel([
-      Animated.timing(translateY, {
-        toValue: -20,
-        duration: 250,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      setIndex(prev => (prev + 1) % suggestions.length);
-
-      // Reset position and opacity
-      translateY.setValue(20);
-      fadeAnim.setValue(0);
-
-      // Animate slide-in + fade-in
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Animate up + fade out
       Animated.parallel([
         Animated.timing(translateY, {
-          toValue: 0,
+          toValue: -20,
           duration: 250,
           useNativeDriver: true,
         }),
         Animated.timing(fadeAnim, {
-          toValue: 1,
+          toValue: 0,
           duration: 250,
           useNativeDriver: true,
         }),
-      ]).start();
-    });
-  }, 2500);
+      ]).start(() => {
+        setIndex(prev => (prev + 1) % suggestions.length);
 
-  return () => clearInterval(interval);
-}, []);
+        // Reset position and opacity
+        translateY.setValue(20);
+        fadeAnim.setValue(0);
+
+        // Animate slide-in + fade-in
+        Animated.parallel([
+          Animated.timing(translateY, {
+            toValue: 0,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      });
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   //fetching the categories data
   useEffect(() => {
@@ -122,6 +123,7 @@ const HomeScreen = ({ navigation }: any) => {
       .collection('categories')
       .onSnapshot(snapshot => {
         const items: any[] = [];
+
         snapshot.forEach(doc => {
           items.push({ id: doc.id, ...doc.data() });
         });
@@ -137,6 +139,7 @@ const HomeScreen = ({ navigation }: any) => {
       .collection('promo_data')
       .onSnapshot(snapshot => {
         const items: any[] = [];
+       
         snapshot.forEach(doc => {
           items.push({ id: doc.id, ...doc.data() });
         });
@@ -153,6 +156,7 @@ const HomeScreen = ({ navigation }: any) => {
         .collection('item_data')
         .onSnapshot(snapshot => {
           const items: any[] = [];
+      
           snapshot.forEach(doc => {
             items.push({ id: doc.id, ...doc.data() });
           });
@@ -231,7 +235,7 @@ const HomeScreen = ({ navigation }: any) => {
             <Animated.Text
               style={[
                 styles.placeholderAnimated,
-                { transform: [{ translateY }],opacity:fadeAnim },
+                { transform: [{ translateY }], opacity: fadeAnim },
               ]}
             >
               {suggestions[index]}
@@ -418,7 +422,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: '100%',
-    overflow:'hidden'
+    overflow: 'hidden',
   },
   placeholderStatic: {
     fontFamily: fontFamily.regular,
